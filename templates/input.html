@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set character encoding for the document -->
+    <meta charset="UTF-8">
+
+    <!-- Set viewport for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title of the document -->
+    <title>LogDetect.AI</title>
+
+    <!-- Link to external CSS for styling -->
+    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Link to jQuery UI for user interface enhancements -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+
+    <!-- Main title for the page -->
+    <div class="page-title">LogDetect.AI</div>
+    <div class="container">
+
+        <!-- Tooltip for form validation messages -->
+        <div id="submitTooltip" class="tooltip">Please add a question and at least one Call log.</div>
+
+        <!-- Form for submitting questions and call logs -->
+        <form id="mainForm" method="POST" action="/submit">
+
+            <!-- Input field for the user question -->
+            <label for="question">Enter Your Question:</label>
+            <input type="text" id="question" name="question" class="full-width"><br>
+
+            <!-- Input fields for adding call log URLs -->
+            <label for="callLogInput">Add your Call Log URLs:</label>
+            <div class="call-log-entry">
+                <input type="text" id="callLogInput" class="call-log-input">
+                <button type="button" id="addButton" class="small-button">+</button>
+            </div>
+
+            <!-- List container for added call logs -->
+            <div id="callLogList" class="call-log-list">
+            </div>
+
+            <!-- Additional tooltips for user actions -->
+            <div id="saveTooltip" class="tooltip">Call log order saved successfully.</div>
+            <div id="generatingTooltip" class="tooltip">Extracting Facts...</div>
+
+            <!-- Buttons for saving order of logs and triggering fact generation -->
+            <button type="button" id="saveButton">Save call log order</button>
+            <button type="submit">Generate facts based on question!</button>
+        </form>
+    </div>
+
+    <!-- jQuery library for handling JavaScript operations -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI library for additional UI components like sortable lists -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Script for dynamic behavior of the form elements
+
+            var logCount = 1; // Initialize log count
+            var callLogOrderSaved = false; // Flag to check if log order is saved
+            
+             // Helper function to validate URL
+            function isValidUrl(string) {
+                try {
+                    new URL(string);
+                    return true;
+                    } 
+                catch (_) {
+                    return false;
+                    }
+                }
+
+            // Helper function to ensure URL is a .txt file
+            function isTxtFileUrl(url) {
+                return url.match(/\.(txt)$/i) != null;
+                }
+            
+            // Function to add call logs to the list
+            function addCallLog() {
+                var logInputValue = $('#callLogInput').val(); // Get URL input value
+
+                // Validations for URL input
+                if (!isValidUrl(logInputValue)) {
+                    showTooltip('#submitTooltip', 'Please enter a valid URL');
+                    } 
+                else if (!isTxtFileUrl(logInputValue)) {
+                    showTooltip('#submitTooltip', 'Please ensure URL points to a .txt file');
+                    } 
+                else if ($('#callLogList').find('input[value="' + logInputValue + '"]').length > 0) {
+                showTooltip('#submitTooltip', 'URL already added');
+                    } 
+                else {
+
+                    // Create log entry elements
+                    var logEntry = $('<div>').addClass('log-entry').hide().fadeIn();
+                    var logInput = $('<input type="hidden" name="call_logs[]">').val(logInputValue);
+                    var logLabel = $('<span>').addClass('log-label').text(logCount);
+                    var logText = $('<span>').addClass('log-text').text(logInputValue);
+                    var removeButton = $('<button type="button" class="remove-button">')
+                    .text('Remove')
+                    .click(function() {
+                        $(this).parent().remove(); // Remove log entry
+                        updateIndexes(); // Update log indexes
+                    });
+
+                // Check if text needs scrolling
+                if (logInputValue.length > 49) {
+                    logText.addClass('scrollable');
+                    }
+
+                // Append elements to log entry and list
+                logEntry.append(logLabel, logText, removeButton, logInput);
+                $('#callLogList').append(logEntry);
+                $('#callLogInput').val('');
+                logCount++;
+                callLogOrderSaved = false;
+                    }
+                }
+            
+            // Function to update log indexes on list changes
+            function updateIndexes() {
+                logCount = 1;
+                $('.log-entry').each(function() {
+                    $(this).find('.log-label').text(' ' + logCount + ' ' + ' ');
+                    logCount++;
+                });
+                }
+            
+            // Function to show and auto-hide tooltips
+            function showTooltip(selector, message) {
+                $(selector).text(message).fadeIn();
+                setTimeout(function() {
+                    $(selector).fadeOut();
+                }, 3000);
+                }
+            
+            // Handle form submission with custom behavior
+            $('#mainForm').on('submit', function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                var question = $('#question').val().trim();
+                var callLogs = $('.log-text').length;
+
+                // Validate form input before submitting
+                if (!question) {
+                    showTooltip('#submitTooltip', 'Please add a question.', 3000); 
+                    } 
+                else if (callLogs === 0) {
+                    showTooltip('#submitTooltip', 'Please add at least one Call log.', 3000); 
+                    }
+                else if (!callLogOrderSaved) {
+                    showTooltip('#submitTooltip', 'Please save the call log order.');
+                    } 
+                else {
+                    $('#generatingTooltip').text('Extracting Facts...').fadeIn(); 
+
+                    // Send AJAX request to server
+                    $.ajax({
+                        url: '/submit',
+                        type: 'POST',
+                        data: formData,
+                    beforeSend: function() {},
+                    success: function(response) {
+                        if (response.success) {
+                            showTooltip('#generatingTooltip', 'Done!');
+                            setTimeout(function() {
+                                $('#generatingTooltip').fadeOut();
+                                window.location.href = response.redirect_url; 
+                                }, 1000);
+                            } 
+                        else {
+                            showTooltip('#generatingTooltip', 'Failed to generate facts: ' + response.error);
+                            $('#generatingTooltip').fadeOut();
+                            }
+                        },
+                    error: function() {
+                        showTooltip('#generatingTooltip', 'Error communicating with the server.');
+                        $('#generatingTooltip').fadeOut();
+                        },
+                    complete: function() {
+                        $('#generatingTooltip').fadeOut();
+                        }
+                        });
+                    }
+                });
+
+            // Additional event handlers for UI interactions
+            $('#saveButton').click(function() {
+                if ($('.log-entry').length === 0) {
+                    showTooltip('#submitTooltip', 'Please add at least one URL');
+                    } 
+                else {
+                    updateIndexes();
+                    callLogOrderSaved = true;
+                    showTooltip('#saveTooltip', 'Call log order saved successfully.');}
+                });
+
+            $('#mainForm').keydown(function(event) {
+                if (event.keyCode === 13) {
+                    if ($(event.target).is('#callLogInput')) {
+                        event.preventDefault();
+                        addCallLog(); 
+                    } 
+                    else {
+                        event.preventDefault();
+                    }
+                    }
+                });
+
+            $('button[type="submit"]').click(function() {
+                $('#mainForm').submit();
+                });
+
+            $('#addButton').click(addCallLog);
+
+            $('#saveButton').click(function() {
+                updateIndexes();
+                });
+
+            // Make call log list sortable with jQuery UI
+            $("#callLogList").sortable({
+                placeholder: "ui-state-highlight",
+                update: function() {
+                    updateIndexes();
+                }
+                });
+
+            // Prevent form submit on enter in call log input
+            $('#callLogInput').keypress(function(event) {
+                if (event.which === 13) { 
+                    event.preventDefault(); 
+                    addCallLog(); 
+                }
+                });
+
+            // Button effects for visual feedback
+            $('button').on('mousedown', function() {
+                $(this).css('background-color', '#ffc107');
+            }).on('mouseup mouseleave', function() {
+                $(this).css('background-color', '');
+            });
+        });
+    </script>
+</body>
+</html>

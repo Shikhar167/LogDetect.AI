@@ -1,0 +1,370 @@
+/* General body styles for typography, layout, and background */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 40px;
+    background: radial-gradient(circle at center, #7B1113 0%, #990000 100%);
+    color: #333;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Styling for the main container where content is placed */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Styles for tooltip elements */
+.tooltip {
+    display: none;
+    position: relative;
+    background-color: #ffbb00;
+    color: #990000;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 0.9em;
+    z-index: 10;
+}
+
+/* Input and button styling */
+input[type="text"], button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 22px);
+}
+
+/* Button specific styles */
+button {
+    cursor: pointer;
+    background-color: #990000;
+    color: white;
+}
+
+/* Applies bold font style to all elements */
+* {
+    font-weight: bold;
+}
+
+/* Layout for log entries */
+.log-entry {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    margin-bottom: 5px;
+    padding: 5px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Styling for text inside log entries */
+.log-text {
+    margin-right: 10px; 
+    max-width: calc(100% - 90px);
+    white-space: nowrap;
+    overflow: hidden;
+    flex-grow: 1;
+    padding-left: 12px;
+}
+
+/* Label inside log entry for numbering or tags */
+.log-label {
+    display: inline-block;
+    width: 30px; 
+    height: 30px; 
+    line-height: 30px;
+    text-align: center;
+    background-color: #ffbb00; 
+    color: white;
+    margin-right: 8px; 
+    margin-left: 10px;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+/* Enables horizontal scrolling for log texts if needed */
+.log-text.scrollable {
+    white-space: nowrap;
+    overflow-x: auto; 
+    text-overflow: clip; 
+}
+
+/* Small button styles */
+.small-button, #addButton {
+    font-size: 20px; 
+    line-height: 1; 
+    width: 40px;
+    height: 40px; 
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 2px;
+    background-color: #ffbb00; 
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hover effect for small buttons */
+.small-button:hover, #addButton:hover {
+    background-color: #7B1113;
+    font-size: large; 
+}
+
+/* Hover effect for all buttons */
+button:hover {
+    background-color: #7B1113; 
+}
+/* Styles for the page title, centering text and setting its color and size */
+.page-title {
+    text-align: center;
+    color: white; 
+    font-size: 48px; 
+    font-family: 'Arial', sans-serif; 
+    margin-bottom: 20px; 
+}
+
+/* Styles to remove default list styles and padding */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Styles for list items, adding spacing, background, and border */
+li {
+    margin: 8px 0;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Ensures form elements take full width of their container */
+form {
+    width: 100%;
+}
+
+/* Sets the text color for all heading levels */
+h1, h2 {
+    color: #333;
+}
+
+/* Specific styles for the call log list area */
+#callLogList {
+    min-height: 50px;
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* General styles for links and submit buttons, including hover effects */
+a, button[type="submit"] {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745; 
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Hover state changes for links and submit buttons */
+a:hover, button[type="submit"]:hover {
+    background-color: #218838; 
+}
+
+/* Additional styles for submit buttons */
+button[type="submit"] {
+    background-color: #28a745; 
+}
+
+/* Hover state for submit buttons */
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Flexbox layout for call log entries */
+.call-log-entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Flexible growth for call log input fields */
+.call-log-input {
+    flex-grow: 1; 
+    margin-right: 5px;
+}
+
+/* Padding adjustment for smaller buttons */
+.small-button {
+    padding: 5px 10px; 
+    margin: 0; 
+}
+
+/* Specific styles for removable button elements in call logs */
+.remove-button {
+    white-space: nowrap; 
+    flex-shrink: 0;
+    width: 80px; 
+    padding: 5px 10px; 
+    background-color: #ffbb00; 
+    color: white;
+    border: none;
+    cursor: pointer; 
+    border-radius: 2px; 
+}
+
+/* Ensures elements with .full-width class take up full available width */
+.full-width {
+    width: 100%;
+}
+
+/* Numbering system for lists with .numbered-list class */
+.numbered-list {
+    counter-reset: list-counter; 
+}
+
+/* Number increment and styling for items within numbered lists */
+.numbered-list li {
+    counter-increment: list-counter; 
+    margin-bottom: 8px;
+}
+
+/* Bold font weight for the index in numbered list items */
+.numbered-list li .index {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Width setting for buttons to ensure consistency */
+.small-button, #saveButton, button[type="submit"] {
+    width: 150px;
+    background-color: #7B1113;
+}
+
+/* Specific width for submit buttons to ensure visual consistency */
+button[type="submit"] {
+    background-color: #7B1113; 
+    width: 425px;
+}
+
+/* Hover state color change for submit buttons */
+button[type="submit"]:hover {
+    background-color: #ffbb00;
+}
+
+/* Hover state for save button */
+#saveButton:hover {
+    background-color:#ffbb00;
+
+}
+
+/* Styling for titles within sections, emphasizing text alignment and color */
+.title {
+    color: white; 
+    text-align: center;
+    border: 2px solid #eaac01;
+    background-color: #990000; 
+    padding: 10px;
+    border-radius: 5px; 
+    display: inline-block; 
+    margin-top: 20px;
+    font-size: 1.5em;
+    width: 96%; 
+}
+
+/* Specific styles for displaying questions within the application */
+.question-text {
+    color: #7B1113;
+    white-space: normal; 
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    margin-bottom: 20px; 
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px; 
+    text-align: center;
+    background-color: #ffbb00;
+}
+
+/* Styles for lists containing facts, emphasizing the unique background and text color */
+.fact-list {
+    color:#7B1113;
+    list-style-type: none; 
+    padding: 0;
+    border: 2px solid #ffbb00;
+    border-radius: 5px; 
+    padding: 10px;
+    margin: 20px 0; 
+}
+
+/* Individual styling for items within the fact list */
+.fact-item {
+    background-color: #fff;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #ffbb00;
+    word-wrap: break-word; 
+}
+
+/* Button-link styles for actions, including hover effects for visibility */
+.button-link {
+    display: inline-block; 
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #7B1113; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    text-align: center; 
+}
+
+/* Hover effect for button links */
+.button-link:hover {
+    background-color: #ffbb00; 
+}
+
+/* Container styling for button groups, centered alignment */
+.button-container {
+    display: flex;
+    justify-content: center; 
+    margin-top: 30px; 
+}
+
+/* Responsive design adjustments for smaller screens */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    .container {
+        padding: 10px;
+    }
+    .call-log-entry, .call-log-input, .small-button, .remove-button {
+        width: auto;
+        margin-right: 5px;
+    }
+    input[type="text"], button, .full-width {
+        width: 100%; 
+        box-sizing: border-box; 
+    }
+    .question-text, .fact-list, .button-link {
+        width: 100%; 
+    }
+}

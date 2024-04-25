@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags to ensure proper rendering and touch zooming -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title of the webpage displayed in the browser's title bar or tab -->
+    <title>Results</title>
+
+    <!-- Link to external CSS file for styling -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Page header indicating the application name -->
+    <div class="page-title">LogDetect.AI</div>
+
+    <!-- Main container for content inside the body -->
+    <div class="container">
+
+        <!-- Section title for the question asked -->
+        <h1 class="title">Question Asked:</h1>
+
+        <!-- Display the question asked by the user -->
+        <div class="question-text">{{ question }}</div>
+
+        <!-- Section title for displaying extracted facts -->
+        <h2 class="title">Extracted facts from logs:</h2>
+
+        <!-- List container for displaying facts -->
+        <ul class="fact-list">
+            {% if facts %} <!-- Conditional to check if there are any facts to display -->
+            {% for fact in facts %} <!-- Loop through each fact and display it as a list item -->
+            <li class="fact-item">{{ fact }}</li>
+            {% endfor %}
+            {% else %} <!-- Fallback content if no facts are present -->
+            <li class="fact-item">No facts available</li>
+            {% endif %}
+        </ul>
+
+        <!-- Container for a link to go back and ask another question -->
+        <div class="button-container">
+            <a href="/" class="button-link">Ask another question</a>
+        </div>
+    </div>
+
+    <!-- Link to jQuery library for any potential scripting needs -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>
