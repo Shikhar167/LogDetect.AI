@@ -1,4 +1,4 @@
-# *﻿*LogDetect.AI**
+# LogDetect.AI
 
 # **Design Document**
 
