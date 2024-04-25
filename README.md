@@ -35,6 +35,7 @@ How it works is simple:
   - The model was asked to update the fact list based on the question and provided context
 - The prompt strategy is better depicted below:
 
+![alt text](/assets/prompt_strat.png)
 
 ## **Design Decisions:**
 
@@ -115,7 +116,7 @@ How it works is simple:
 
 ### **Output:**
 
-
+![alt text](/assets/output.png)
 
 
 
