@@ -137,11 +137,4 @@ The Future scope of this project is immense. Here are a few applications that th
 - Real time transcript to fact generation
 - Automatic Minutes of the Meeting Generator
 
-## **Acknowledgement:**
-
-I’d like to thank the Cleric team for giving me the opportunity to work on this assignment. It was probably the most fun I had building an application and I got to learn a lot while completing the assignment. I’m excited for the team to review my submission and look forward to receiving your feedback on the same.
-
-Best Regards,
-
-Shikhar
 
